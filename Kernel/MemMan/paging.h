@@ -27,4 +27,4 @@ void init_paging(void);
 void load_page_directory(page_directory_t *pd);
 void enable_paging(void);
 
-#endif // PAGING_H
+#endif

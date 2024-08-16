@@ -4,6 +4,6 @@
 #include <stdint.h>
 
 void init_timer();
-void timer_isr(); // Interrupt Service Routine for the timer
+void timer_isr();
 
-#endif // TIMER_H
+#endif

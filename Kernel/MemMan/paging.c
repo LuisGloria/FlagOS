@@ -1,4 +1,4 @@
-#include <stdint.h> // For uint32_t, uint8_t
+#include <stdint.h>
 #include "paging.h"
 #include "memman.h"
 

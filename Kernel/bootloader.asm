@@ -3,11 +3,11 @@
 
 start:
     mov ax, 0x07C0
-    add ax, 288       ; Set stack at 0x9000 (288 * 16)
+    add ax, 288
     mov ss, ax
     mov sp, 4096
 
-    ; Load the kernel (simplified)
+    ; Load the kernel
     mov si, hello_msg
     call print_string
 

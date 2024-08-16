@@ -1,16 +1,14 @@
 #include "idt.h"
 #include <stdint.h>
-#include <string.h> // For memset
+#include <string.h>
 #include <stdint.h>
 
-// Example ISR for Timer Interrupt
 void timer_isr() {
 
 }
 
 #define IDT_ENTRIES 256
 
-// Declare the IDT and IDT Pointer
 idt_entry_t idt[IDT_ENTRIES];
 idt_ptr_t idt_ptr;
 
@@ -33,9 +31,11 @@ void init_idt() {
     idt_ptr.limit = sizeof(idt) - 1;
     idt_ptr.base = (uint32_t)idt;
 
-    // Set up some IDT entries (example only, real entries should be set up with actual ISRs)
+    // Set up some IDT entries (example only, real entries should be set up with actual IRSs)
     // Vector 0x20 is typically IRQ0 (Timer), for example:
     set_idt_entry(0x20, (uint32_t)timer_isr, 0x08, 0x8E); // Present, Ring 0, 32-bit interrupt gate
 
     load_idt(&idt_ptr);
 }
+
+//I mean ISRs in line 34 sorry for reminding you to file your taxes.

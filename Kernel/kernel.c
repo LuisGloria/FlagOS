@@ -1,3 +1,5 @@
+#include "hypervisor.h"
+
 void kernel_main(void) {
     const char *str = "Kernel is running!";
     char *vidptr = (char*)0xb8000; // Video memory begins here.
@@ -18,4 +20,15 @@ void kernel_main(void) {
         i = i + 2;
     }
     return;
+}
+
+void kernel_main() {
+    init_hypervisor();
+    create_vm();
+    run_vm();
+
+ 
+    while (1) {
+        // Kernel tasks
+    }
 }

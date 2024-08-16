@@ -6,10 +6,17 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <errno.h>
+#include "shell.h"
+#include "user.h"
+#include "pkg_manager.h"
+#include "parser.h"
 
 #define MAX_COMMAND_LENGTH 128
 #define MAX_ARGS 10
 #define MAX_PACKAGES 10
+
+//For fuck's sake don't let furry developers
+//touch this code, I beg you!
 
 void shell_loop();
 void execute_command(char *command);
@@ -35,11 +42,11 @@ void shell_loop() {
     char command[MAX_COMMAND_LENGTH];
 
     while (1) {
-        printf("osh> ");  // Display a prompt
+        printf("osh> ");
         fgets(command, sizeof(command), stdin);  // Read the command
         command[strcspn(command, "\n")] = 0;  // Remove the newline character
 
-        execute_command(command);  // Execute the command
+        execute_command(command);
     }
 }
 
@@ -175,9 +182,9 @@ void listpkg() {
 }
 
 void changeclr(char *color) {
-    // Check if the color string is of the correct length for an ANSI escape code
+
     if (strlen(color) == 1) {
-        // Convert the single character to an integer
+
         int color_code = atoi(color);
 
         // Ensure the color code is valid (0-255 for 8-bit colors)
@@ -194,22 +201,50 @@ void changeclr(char *color) {
 
 #ifdef _WIN32
 void crtdir(char *dir_name) {
-    if (mkdir(dir_name) != 0) {  // Only passing the directory name
+    if (mkdir(dir_name) != 0) {
         perror("crtdir");
     }
 }
 #else
 void crtdir(char *dir_name) {
-    if (mkdir(dir_name, 0777) != 0) {  // Passing directory name and permissions
+    if (mkdir(dir_name, 0777) != 0) {  // I don't fucking know what I'm doing.
         perror("crtdir");
     }
 }
 #endif
 
+void handle_create_user(char *username, char *password, uint8_t role) {
+    if (create_user(username, password, role) == 0) {
+        printf("User created successfully.\n");
+    } else {
+        printf("Failed to create user.\n");
+    }
+}
+
+void handle_authenticate_user(char *username, char *password) {
+    int user_id = authenticate_user(username, password);
+    if (user_id >= 0) {
+        printf("Authentication successful. User ID: %d\n", user_id);
+    } else {
+        printf("Authentication failed.\n");
+    }
+}
+
 void rmvdir(char *dir_name) {
     if (rmdir(dir_name) != 0) {
         perror("rmvdir");
     }
+}
+
+void execute_command(const char *command) {
+    if (strcmp(command, "listpkg") == 0) {
+        list_installed_packages();
+    } else if (strncmp(command, "installpkg ", 11) == 0) {
+        install_package(command + 11);
+    } else if (strncmp(command, "uninstallpkg ", 13) == 0) {
+        uninstall_package(command + 13);
+    }
+    // Other shell commands
 }
 
 void shtdwn() {
@@ -221,6 +256,27 @@ void shtdwn() {
     //Dear dev, if you're going to do a pull request.
     //make sure you increment the number on the bottom please.
 
-    //input_hours_wasted_here = 3
+    //input_hours_wasted_here = 25
     exit(0);
+}
+
+void execute_script(const char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        perror("fopen");
+        return;
+    }
+
+    fseek(file, 0, SEEK_END);
+    long filesize = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    char *script = malloc(filesize + 1);
+    fread(script, 1, filesize, file);
+    script[filesize] = '\0';
+
+    fclose(file);
+
+    parse_script(script);
+    free(script);
 }

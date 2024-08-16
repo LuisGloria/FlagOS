@@ -1,5 +1,5 @@
 #include "proccess.h"
-#include <string.h> // For memset
+#include <string.h>
 #include "heap.h"
 
 // Definition of static variables
@@ -8,11 +8,10 @@ static uint32_t current_process = 0;
 
 void process_init() {
     memset(processes, 0, sizeof(processes));
-    // Initialize other necessary data structures
+    // Initialize other necessary data structures or smth
 }
 
 void process_create(void (*entry_point)(), uint32_t *stack, uint32_t stack_size) {
-    // Find an empty slot for the new process
     for (uint32_t i = 0; i < MAX_PROCESSES; i++) {
         if (processes[i].state == PROCESS_TERMINATED || processes[i].state == PROCESS_READY) {
             processes[i].stack = stack;
@@ -23,22 +22,20 @@ void process_create(void (*entry_point)(), uint32_t *stack, uint32_t stack_size)
             return;
         }
     }
-    // Handle error: No available process slots
 }
 
 void process_switch() {
     // Save the current process state
     // Load the next process state
+    // IDK what this does, I pulled out another all nighter
     uint32_t next_process = (current_process + 1) % MAX_PROCESSES;
     while (processes[next_process].state != PROCESS_READY) {
         next_process = (next_process + 1) % MAX_PROCESSES;
     }
 
-    // Perform context switch here
-    // e.g., Save state of current process, load state of next process
     // Example placeholder
     current_process = next_process;
-    // Restore context of the new current process
+
 }
 
 void process_terminate(uint32_t process_id) {
@@ -46,4 +43,15 @@ void process_terminate(uint32_t process_id) {
         processes[process_id].state = PROCESS_TERMINATED;
         // Free resources associated with the process if needed
     }
+}
+
+void process_create(void (*entry_point)(), uint32_t *stack, uint32_t stack_size) {
+    // Process created
+}
+
+void process_terminate(uint32_t process_id) {
+    // process terminated. 
+    //I'm sorry to interrupt you, Elizabeth, 
+    //if you still even remember that name, 
+    //But I'm afraid you've been misinformed.
 }

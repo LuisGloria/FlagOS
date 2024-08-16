@@ -1,4 +1,4 @@
-#include <stdint.h> // For uint32_t, uint8_t
+#include <stdint.h> // For uint32_t, uint8_t, this took me like 4 hours.
 #include "heap.h"
 #include "memman.h"
 
@@ -33,7 +33,7 @@ void *malloc(uint32_t size) {
         current = current->next;
     }
 
-    return NULL; // Out of memory
+    return NULL; // Out of memory lol
 }
 
 void free(void *ptr) {

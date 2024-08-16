@@ -4,4 +4,4 @@
 void shell_loop();
 void execute_command(char *command);
 
-#endif // SHELL_H
+#endif
