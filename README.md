@@ -1,5 +1,8 @@
 # FlagOS
 Custom OS build from scratch.
-It isn't still done, it only has a the kernel and README.md file
+It's kinda done.
 
-Wait until I complete this.
+BTW, there's an error on a file I forgot the name, please fix that for me if you're going to do a pull request.
+
+OS is kinda complete I guess?
+Haven't tested it yet.
