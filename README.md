@@ -8,4 +8,4 @@ Haven't tested it yet.
 --Update--
 
 I think I'll give up on this project.<br/>
-I can't compile half of the files in here and everything's a mess, do what you want with it.
+I can't compile half of the files in here and everything's a mess, do whatever you want to do with it.
